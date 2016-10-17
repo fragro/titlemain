@@ -1,0 +1,35 @@
+<template name="uploadForm">
+  <h4>Upload New Title</h4>
+  	{{>fileinput}}
+  	{{#if processing}}
+	  <div class="chip">
+	    <i class="fa fa-spin fa-spinner"></i> {{processing}}
+	  </div>
+    {{/if}}
+    <div id="processed"></div>
+</template>
+
+<template name="uploadAlert">
+  <div>
+    <div class="chip">
+      <i class="fa fa-check"></i> {{text}}
+    </div>
+  </div>
+</template>
+
+<template name="uploadError">
+  <div>
+    <div class="chip red">
+      <i class="fa fa-times"></i> {{text}}
+    </div>
+  </div>
+</template>
+
+
+<template name="uploadSuccess">
+  <div>
+    <div class="chip green">
+      <i class="fa fa-thumbs-up"></i> {{text}}
+    </div>
+  </div>
+</template>

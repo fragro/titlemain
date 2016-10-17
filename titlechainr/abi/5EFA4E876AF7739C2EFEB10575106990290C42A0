@@ -1,0 +1,1 @@
+[{"constant":true,"inputs":[],"name":"description","outputs":[{"name":"","type":"string"}],"type":"function"},{"constant":false,"inputs":[{"name":"description_","type":"string"}],"name":"initTitle","outputs":[],"type":"function"}]

@@ -1,0 +1,35 @@
+<head>
+  <title>InterPlanetary Title System</title>
+</head>
+<body></body>
+<template name="mainLayout">
+  {{> Template.dynamic template=top}}
+  {{> Template.dynamic template=main}}
+</template>
+<template name="titlechainContainer">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        {{> titlechains}}
+      </div>
+    </div>
+  </div>
+</template>
+<template name="filesContainer">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        {{> files}}
+      </div>
+    </div>
+  </div>
+</template>
+<template name="uploadContainer">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4 col-md-offset-2">
+        {{> uploadForm}}
+      </div>
+    </div>
+  </div>
+</template>

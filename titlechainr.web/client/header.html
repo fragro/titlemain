@@ -1,0 +1,31 @@
+<template name="header">
+<nav class="light-blue lighten-1" role="navigation">
+  <div class="nav-wrapper container"><a id="logo-container" href="/" class="brand-logo">Inter-Planetary Title System</a>
+    <ul class="right hide-on-med-and-down">
+      {{#if isInRole 'superuser'}}
+        <li><a href="/titlechains">TitleChain</a></li>
+        <li><a href="/files">Documents</a></li>
+        <li><a href="/upload">Upload</a></li>
+      {{/if}}
+      {{>loginHeader}}
+    </ul>
+    <ul id="nav-mobile" class="side-nav">
+      {{#if isInRole 'superuser'}}
+        <li><a href="/titlechains">TitleChain</a></li>
+        <li><a href="/files">Documents</a></li>
+        <li><a href="/upload">Upload</a></li>
+      {{/if}}
+      {{>loginHeader}}
+    </ul>
+    <a href="/" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+  </div>
+</nav>
+</template>
+
+<template name="loginHeader">
+  {{#if currentUser}}
+   <li><a href="#" data-action="logout"><i class="fa fa-sign-out"></i></a></li>
+  {{else}}
+    <li><a href="/login"><i class="fa fa-sign-in"></i></a></li>
+  {{/if}}
+</template>

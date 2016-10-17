@@ -1,0 +1,31 @@
+<template name="files">
+  <h4>Cached Titles Testing</h4>
+  <button id="removeFiles" class="btn btn-default red">Remove All</button>
+  <h5>Uploaded Titles</h5>
+  {{#if processing}}
+    <div class="label label-default"><i class="fa fa-spin fa-spinner"></i>{{processing}}</div>
+  {{/if}}
+  <div class="well">{{parsed.content}}</div>
+  {{#each files}}
+  	{{>file}}
+  {{/each}}
+</template>
+
+<template name="file">
+  <p class="col-md-6">
+  	<div>
+      <div class="chip">
+        <a target="_parent" href="{{fileURL this}}">{{this.name}}</a>
+        <i class="close fa fa-trash" id="remove"></i>
+      </div>
+      
+      <div class="chip {{getLegalColor}}">
+        {{hasLegalCoordinates}}%
+      </div>
+    </div>
+    <button id="processPDF" class="btn waves-effect waves-light">PDF2PNG</button>
+    <button id="ocr" class="btn waves-effect waves-light">OCR</button>
+    <button id="parse" class="btn waves-effect waves-light"> PARSE</button>
+    <button id="save" class="btn waves-effect waves-light"> <i class="fa fa-save"></i></button>
+  </p>
+</template>

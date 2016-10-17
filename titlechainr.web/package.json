@@ -1,0 +1,12 @@
+{
+  "name": "titlechainr",
+  "private": true,
+  "scripts": {
+    "start": "meteor run"
+  },
+  "dependencies": {
+    "bcrypt": "^0.8.7",
+    "file-exists": "^2.0.0",
+    "meteor-node-stubs": "~0.2.0"
+  }
+}
