@@ -1,1 +1,0 @@
-[{"constant":false,"inputs":[{"name":"val","type":"string"}],"name":"createNode","outputs":[{"name":"","type":"address"}],"type":"function"}]
