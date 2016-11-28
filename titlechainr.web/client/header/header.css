@@ -1,0 +1,10 @@
+.affix-fix {
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+    -webkit-animation-name: fadeInDown;
+    animation-name: fadeInDown;
+    padding: 0!important;
+    background: #3f51b5 !important;
+}

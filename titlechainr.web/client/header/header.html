@@ -1,0 +1,95 @@
+<template name="header">
+<!-- <nav class="light-blue lighten-1" role="navigation">
+  <div class="nav-wrapper container"><a id="logo-container" href="/" class="brand-logo">Inter-Planetary Title System</a>
+    <ul class="right hide-on-med-and-down">
+      {{#if isInRole 'superuser'}}
+        <li><a href="/titlechains">TitleChain</a></li>
+        <li><a href="/files">Documents</a></li>
+        <li><a href="/upload">Upload</a></li>
+      {{/if}}
+      {{>loginHeader}}
+    </ul>
+    <ul id="nav-mobile" class="side-nav">
+      {{#if isInRole 'superuser'}}
+        <li><a href="/titlechains">TitleChain</a></li>
+        <li><a href="/files">Documents</a></li>
+        <li><a href="/upload">Upload</a></li>
+      {{/if}}
+      {{>loginHeader}}
+    </ul>
+    <a href="/" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+  </div>
+</nav> -->
+    <header id="home">
+        <div class="container">
+          <div class="col-md-12">
+              <div class="navbar navbar-inverse sticky-navigation navbar-fixed-top affix-top affix-fix" role="navigation" data-spy="affix" data-offset-top="200">
+                <div class="container">
+                  <div class="navbar-header">
+                    <a class="logo-left " href="/"><i class="fa fa-code-fork"></i>TitleMain</a>
+                  </div>
+                  <div class="navbar-right">
+                    <button class="menu-icon button-collapse" data-activates="slide-out">
+                      <i class="fa fa-bars"></i>
+                    </button>             
+                  </div>
+                </div>
+              </div>
+          </div>        
+        </div>   
+    </header>
+</template>
+<template name="landingHeader">
+   <header class="hero-area" id="home">
+        <div class="container">
+
+          <div class="col-md-12">
+              <div class="navbar navbar-inverse sticky-navigation navbar-fixed-top" role="navigation" data-spy="affix" data-offset-top="200">
+                <div class="container">
+                  <div class="navbar-header">
+                    <a class="logo-left " href="/"><i class="fa fa-code-fork"></i>TitleMain</a>
+                  </div>
+                  <div class="navbar-right">
+                    <button class="menu-icon button-collapse" data-activates="slide-out">
+                      <i class="fa fa-bars"></i>
+                    </button>             
+                  </div>
+                </div>
+              </div>
+          </div>        
+          {{>heroContent}}
+        </div>
+    </header>
+</template>
+<template name="offCanvasMenu">
+    <ul id="slide-out" class="side-nav" style="z-index: 10000;">
+    <li><div class="userView">
+      <img class="background" src="img/office.jpg">
+      {{#if currentUser}}
+      <a href="/user"><img class="circle" src="img/user.png"></a>
+      <a href="/user"><span class="white-text email">{{userEmail}}</span></a>
+      {{/if}}
+    </div></li>
+    <li><a class="waves-effect" href="/search"><i class="fa fa-search"></i> Search</a></li>  
+    {{#if currentUser}}
+      {{#if isInRole 'superuser'}}
+        <li><a class="waves-effect" href="/upload"><i class="fa fa-upload"></i> Upload</a></li>
+        <li><a class="waves-effect" href="/debug"><i class="fa fa-bug"></i> Debug</a></li>
+      {{/if}}
+      <li><div class="divider"></div></li>
+      <li><a data-action="logout" class="waves-effect" href="#"><i class="fa fa-sign-out"></i> Logout</a></li>
+
+    {{else}}
+        <li><div class="divider"></div></li>
+        <li><a class="waves-effect" href="/login"><i class="fa fa-sign-in"></i> Login</a></li>
+    {{/if}}
+  </ul>
+</template>
+
+<template name="loginHeader">
+  {{#if currentUser}}
+   <li><a href="#" data-action="logout"><i class="fa fa-sign-out"></i> Sign Out</a></li>
+  {{else}}
+    <li><a href="/login"><i class="fa fa-sign-in"></i> Login</a></li>
+  {{/if}}
+</template>

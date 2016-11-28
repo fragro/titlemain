@@ -1,31 +1,84 @@
 <template name="files">
-  <h4>Cached Titles Testing</h4>
-  <button id="removeFiles" class="btn btn-default red">Remove All</button>
-  <h5>Uploaded Titles</h5>
-  {{#if processing}}
-    <div class="label label-default"><i class="fa fa-spin fa-spinner"></i>{{processing}}</div>
-  {{/if}}
-  <div class="well">{{parsed.content}}</div>
-  {{#each files}}
-  	{{>file}}
-  {{/each}}
+    <h4 >Cached Titles Testing</h4>
+    <button id="removeFiles" class="btn btn-default red pull-right"><i class="fa fa-exclamation-triangle"></i> Remove All</button>
+    {{#if chains}}
+      <button id="cancel-chains" class="btn btn-default teal">Back to Files</button>
+    {{/if}}
+    <button id="get-title-chains" class="btn btn-default">Get TitleChain {{#if loading}} <i class="fa fa-spinner fa-spin"></i>{{/if}}</button>
+    {{#if processing}}
+      <div class="chip blue lighten-1 white-text"><i class="fa fa-spin fa-spinner"></i> {{processing}}</div>
+    {{/if}}
+    {{#if chains}}
+      <div class="row">
+        {{#each chains}}
+          {{>titles titleChainAddr=this}}
+        {{/each}}
+      </div>
+    {{else}}
+        {{#if parsed}}
+          <h5>{{parsed.class}}</h5>
+          <p><strong>state: {{parsed.state}} - county:{{parsed.county}}</strong></p>
+           <div class="card-action">
+            {{#if textMode}}
+              <a id="location" href="#" class="btn btn-sm blue lighten-1">Location Mode</a>
+            {{else}}
+              <a id="text" href="#" class="btn btn-sm blue lighten-1">Text Mode</a>
+            {{/if}}
+          </div>
+          {{#each parsed.locations}}
+            <div class="card row">
+              <div class="card-content">
+                {{#if textMode}}
+                  <div class="col-md-12">
+                    {{{text}}}
+                  </div>
+                {{else}}  
+                  {{#each arrayify this}}
+                    <div class="col-md-3"><h5>{{name}}</h5>
+                    {{#if $eq name 'lot'}}
+                      {{#if isList value}}
+                        {{#each value}}
+                          {{this.num}}
+                        {{/each}}
+                      {{else}}
+                        {{value}}
+                      {{/if}}
+                    {{else}}
+                      {{value}}
+                    {{/if}}
+                    </div>
+                  {{/each}}
+                {{/if}}
+              </div>
+            </div>
+          {{/each}}
+        {{/if}}
+      {{#each files}}
+      	{{>file}}
+      {{/each}}
+    {{/if}}
 </template>
-
 <template name="file">
   <p class="col-md-6">
   	<div>
+      <div class="chip {{getLegalColor}}">
+        {{hasLegalCoordinates}}%
+      </div>
       <div class="chip">
         <a target="_parent" href="{{fileURL this}}">{{this.name}}</a>
         <i class="close fa fa-trash" id="remove"></i>
       </div>
-      
-      <div class="chip {{getLegalColor}}">
-        {{hasLegalCoordinates}}%
+      <div class="pull-right">
+        <a id="processPDF" class="btn-floating btn-small waves-effect waves-light green lighten-4"><i class="fa fa-file-pdf-o"></i></a>
+        <a id="ocr" class="btn-floating btn-small waves-effect waves-light green lighten-3"><i class="fa fa-eye"></i></a>
+        <a id="parse" class="btn-floating btn-small waves-effect waves-light green lighten-1"><i class="fa fa-sort-alpha-desc"></i></a>
+        <a id="save" class="btn-floating btn-small waves-effect waves-light green"><i class="fa fa-save"></i></a>
       </div>
+
+    <!--   <button id="processPDF" class="btn waves-effect waves-light">PDF2PNG</button>
+      <button id="ocr" class="btn waves-effect waves-light">OCR</button>
+      <button id="parse" class="btn waves-effect waves-light"> PARSE</button>
+      <button id="save" class="btn waves-effect waves-light"> <i class="fa fa-save"></i></button> -->
     </div>
-    <button id="processPDF" class="btn waves-effect waves-light">PDF2PNG</button>
-    <button id="ocr" class="btn waves-effect waves-light">OCR</button>
-    <button id="parse" class="btn waves-effect waves-light"> PARSE</button>
-    <button id="save" class="btn waves-effect waves-light"> <i class="fa fa-save"></i></button>
   </p>
 </template>
