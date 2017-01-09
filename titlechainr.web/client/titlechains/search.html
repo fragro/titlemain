@@ -1,0 +1,145 @@
+<template name="search">
+  <div class="row">
+      <form class="col-md-10">
+        <div class="row" style="margin-bottom:0;">
+           <div class="input-field col s4">
+            <label class="default-label">State</label>
+            <div>
+              <select id="state" class="browser-default">
+                <option value="" disabled selected>Choose your option</option>
+                <option value="oklahoma">Oklahoma</option>
+              </select>
+            </div>
+          </div>
+          <div class="input-field col s4">
+            <label class="default-label">County</label>
+            <div>
+              <select id="county" class="browser-default">
+                <option value="" disabled selected>Choose your option</option>
+                <option value="oklahoma">Oklahoma</option>
+              </select>
+            </div>
+          </div>
+          <div class="input-field col s4">
+            <label class="default-label">City</label>
+            <div>
+              <select id="city" class="browser-default">
+                <option value="" disabled selected>Choose your option</option>
+                <option value="oklahoma city">Oklahoma City</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="row" style="margin-top:0;">
+          <div class="input-field col s4">
+            <input id="sub" type="text" class="validate">
+            <label for="sub">Subdivision</label>
+          </div>
+          <div class="input-field col s4">
+            <input id="block" type="text" class="validate">
+            <label for="block">Block</label>
+          </div>
+          <div class="input-field col s4"> 
+            <input id="lot" type="text" length="10">
+            <label for="lot">Lot</label>
+          </div>
+        </div>
+        <div class="row" style="margin-top:0;">
+          <div class="input-field col s4"> 
+            <input id="section" type="text" length="10">
+            <label for="section">Section</label>
+          </div>
+          <div class="input-field col s2">
+            <input id="township" type="text" class="validate">
+            <label for="township">Township</label>
+          </div>
+         <div class="input-field col s2">
+              <select id="townshipDir">
+                <option value="" disabled selected>Choose direction</option>
+                <option value="W">West</option>
+                <option value="E">East</option>
+                <option value="N">North</option>
+                <option value="S">South</option>
+              </select>
+              <label>Township Direction</label>
+          </div>
+          <div class="input-field col s2">
+            <input id="range" type="text" class="validate">
+            <label for="range">Range</label>
+          </div>
+          <div class="input-field col s2">
+              <select id="rangeDir">
+                <option value="" disabled selected>Choose direction</option>
+                <option value="W">West</option>
+                <option value="E">East</option>
+                <option value="N">North</option>
+                <option value="S">South</option>
+              </select>
+              <label>Range Direction</label>
+          </div>
+        </div>
+      </form>
+      <div class="col-md-2">
+          <div class="row">
+              <div class="col s12"> 
+                {{#if loading}}
+                  <a id="loading" class="disabled btn-floating btn-large waves-effect waves-light red"><i class="fa fa-spinner fa-spin"></i></a>
+                {{else}}
+                  <a id="search" class="btn-floating btn-large waves-effect waves-light red"><i class="fa fa-search"></i></a>
+                {{/if}}
+              </div>
+          </div>
+      </div>
+  {{#if error}}
+    {{> errorCard error=error}}
+  {{/if}}
+  </div>
+  {{#if searchOptions}}
+    <h4>
+      {{capitalize searchOptions.state}} <h5>{{capitalize searchOptions.county}} County </h5>
+    </h4>
+  {{/if}}
+  {{>searchTitles}}
+</template>
+<template name="searchTitles">
+  <div class="card">
+    <div class="card-content">
+      {{#each titles}}
+        {{>searchTitle}}
+      {{/each}}
+    </div>
+  </div>
+</template>
+<template name="searchTitle">
+ <div class="row">
+    <div class="col-md-1">
+      <div class="title">
+        <h1><a href="{{titleLink.link}}" target="_parent"><i class="fa fa-file-pdf-o"></i></a></h1>
+      </div>
+    </div>
+    <div class="col-md-11">
+      <h5>{{titleClass}}</h5>
+      {{# if location.ordinal}}
+        {{> ruralLocation location=location}}
+      {{else}}
+        {{>urbanLocation location=location}}
+      {{/if}}
+      <p><strong>Uploaded on</strong> {{date}}</p>
+    </div>
+  </div>
+</template>
+<template name="ruralLocation">
+  <h4>
+    {{upperCase location.ordinal}} Section {{location.section}} Township {{location.township}} {{formatDirection location.townshipDir}} Range {{location.range}} {{formatDirection location.rangeDir}}
+  </h4>
+</template>
+<template name="urbanLocation">
+  {{#each arrayify location}}
+      <div class="col-md-2">
+        <h5>{{name}}</h5>
+        <p>
+          {{value}}
+        </p>
+      </div>
+  {{/each}}
+</template>

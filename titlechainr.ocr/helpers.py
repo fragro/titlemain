@@ -1,9 +1,17 @@
 import re
 
-NUMERAL_LIST = [' one',
- 'eight',
+lotRegex = 'lots|lot'
+accordingToRegex = 'according to the|recorded plat|plat thereof|according|plat'
+toWitRegex = 'to-wit:|to\swit'
+strRegex = 'section.+?township.+?range.+?(east|west|north|south){1}?'
+ordinalRegex = '((se|ne|sw|nw|n|s|w|e)/(z|Z|2|4|8|16|32|64)\s*)+'
+stateRegex = '\sstate of [a-z]*'
+countyRegex = '\scounty of [a-z]*'
+
+NUMERAL_LIST = ['one',
  'eighteen',
  'eighty',
+ 'eight',
  'eleven',
  'fifteen',
  'fifty',
@@ -14,14 +22,13 @@ NUMERAL_LIST = [' one',
  'nine',
  'nineteen',
  'ninety',
- 'one',
  'one hundred',
- 'seven',
  'seventeen',
  'seventy',
- 'six',
+ 'seven',
  'sixteen',
  'sixty',
+ 'six',
  'ten',
  'thirteen',
  'thirty',
@@ -29,6 +36,10 @@ NUMERAL_LIST = [' one',
  'twelve',
  'twenty',
  'two']
+
+LEGAL_CLASSIFICATIONS = ['CORPORATE ASSIGNMENT OF MORTGAGE', 'RELEASE OF MORTGAGE', 'MINERAL QUIT CLAIM DEED', 'MINERAL DEED', 'OIL AND GAS LEASE', 'WARRANTY DEED',
+							'AMBULANCE SERVICES LIEN', 'MORTGAGE', 'PERSONAL REPRESENTATIVES DEED', 'CORRECTED MINERAL QUIT CLAIM DEED' 'QUIT CLAIM DEED', 'DEED', 'OIL']
+
 
 def recursiveRegexSearch(regex, multi, text, match):
 	#search for regex patterns of regex w/ multi X2, X3, etc. until base case
@@ -43,6 +54,8 @@ def recursiveRegexSearch(regex, multi, text, match):
 
 #prep Text for usage and shield against common OCR errors
 def prepText(txt):
+	if not txt:
+		print 'ERR: No text!'
 	txt = txt.lower()
 	txt = txt.replace("\n", " ")
 	#account for common OCR mistakes
@@ -129,3 +142,47 @@ def getSubdivision(addition):
 	addition = addition.replace('additi', ' ')
 	addition = addition.strip(' ')
 	return addition
+
+def isNumber(s):
+    try:
+        float(s)
+        return True
+    except ValueError:
+        return False
+
+#process individual ord char and return code
+def processOrdChar(o):
+	if isNumber(o):
+		return 0
+	elif o == '/':
+		return 1
+	elif o in ['n', 'e', 'w', 's']:
+		#must be character n,w,e,s
+		return 2
+	elif o == ' ':
+		return 3 
+
+#parse multiple ordinal 
+def parseOrdinal(ordinalTxt):
+	ordinalTxt = str(ordinalTxt)
+	VARNEXT = -1
+	NEXT = -1
+	curOrdinal = ''
+	ordList = []
+	for itr in ordinalTxt:
+		NEXT = processOrdChar(itr)
+		#end of ordinal range
+		if NEXT == 3 or (NEXT == 2 and VARNEXT == 0):
+			ordList.append(curOrdinal)
+			if NEXT == 2:
+				curOrdinal = itr
+			else:
+				curOrdinal = ''
+		#continue to add to ordinal
+		else:
+			curOrdinal += str(itr)
+		VARNEXT = NEXT
+	if curOrdinal != '':
+		ordList.append(curOrdinal)
+	return ordList
+

@@ -3,3 +3,4 @@ Flask
 flask-cors
 https://github.com/Kalimaha/simple_flask/archive/master.zip
 https://github.com/Kalimaha/simple_flask_blueprint/archive/master.zip
+dateparser

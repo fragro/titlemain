@@ -1,5 +1,10 @@
 BLOCKCHAIN_API = "http://localhost:8082";
 
+
+/*retrieve a single title chain*/
+getTitleChainAddr = function(nodeAddress){
+	//given a node address we grab the title chain
+}
 /* Expensive recursive function to aggregate all TitleChains stored in the blockchain */
 getAllTitleChain = function(addr, data, itr){
 	console.log('gettin ' + addr);
@@ -19,7 +24,7 @@ getAllTitleChain = function(addr, data, itr){
 		return getAllTitleChain(prevTitleChain.data.address, data, itr);
 	}
 }
-/* Expensive recursive function to aggregate all TitleChains stored in the blockchain */
+/* Get all titles from a given titleChainAddr */
 getAllTitles = function(chainAddr, addr, data, itr){
 	console.log("gettin " + chainAddr + ":" + addr);
 	var prevTitleChain = Meteor.http.call("GET", BLOCKCHAIN_API + "/title/prev/" + chainAddr + "/" + addr);
@@ -40,8 +45,9 @@ getAllTitles = function(chainAddr, addr, data, itr){
 	}
 }
 createNewTitleChain = function(obj_str){
+	obj_str = encodeURIComponent(obj_str)
 	var titleChainAddress = Meteor.http.call("GET", BLOCKCHAIN_API + "/titlechain/put/" + obj_str);
-	return titleChainAddress;	
+	return titleChainAddress;
 }
 putNewTitle = function(titleChainAddress, title_str){
 	console.log(titleChainAddress)
@@ -82,6 +88,12 @@ putNewTitle = function(titleChainAddress, title_str){
 		//appendToBlockChain(addressData.address, obj);
 	}
 }*/
+retrieveTitles = function(titleChainAddress){
+	var titleHeadAddress = Meteor.http.call("GET", BLOCKCHAIN_API + "/title/head/" + titleChainAddress);
+	console.log(titleHeadAddress);
+	var titles = getAllTitles(titleChainAddress, titleHeadAddress.data.address, [titleHeadAddress.data], 0);
+	return {address: titleHeadAddress.data, titles: titles };
+}
 Meteor.methods({
 	getAllTitleChains: function(){
 		var titleChainAddress = Meteor.http.call("GET", BLOCKCHAIN_API + "/titlechain/head");
@@ -89,10 +101,7 @@ Meteor.methods({
 		return {address: titleChainAddress.data, chains: titleChains };
 	},
 	getAllTitles: function(titleChainAddress){
-		var titleHeadAddress = Meteor.http.call("GET", BLOCKCHAIN_API + "/title/head/" + titleChainAddress);
-		console.log(titleHeadAddress);
-		var titles = getAllTitles(titleChainAddress, titleHeadAddress.data.address, [titleHeadAddress.data], 0);
-		return {address: titleHeadAddress.data, titles: titles };
+		return retrieveTitles(titleChainAddress);
 	},
 	bootstrapTitleChain: function () {
 		var titleChainAddress = Meteor.http.call("GET", BLOCKCHAIN_API + "/test");

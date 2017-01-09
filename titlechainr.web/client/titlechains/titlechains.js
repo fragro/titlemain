@@ -4,36 +4,6 @@ import { Session } from 'meteor/session'
 
 import './titlechains.html';
 
-Template.titlechains.onCreated(function titleChainsOnCreated() {
-  // counter starts at 0
-  this.chains = new ReactiveVar([]);
-  this.loading = new ReactiveVar(false);
-
-});
-
-Template.titlechains.helpers({
-  chains: function() {
-  	return Session.get("mainchain");
-    //return Template.instance().chains.get();
-  },
-  loading: function() {
-    return Template.instance().loading.get();
-  },
-});
-
-Template.titlechains.events({
-  'click #get-title-chains': function(event, instance) {
-    event.preventDefault();
-    instance.loading.set(true);
-    Meteor.call("getAllTitleChains", function(error, result){
-    	console.log(result);
-    	instance.chains.set(result.chains);
-		instance.loading.set(false);
-		Session.set("mainchain", result.chains);
-    })
-  }
-});
-
 Template.titles.onCreated(function titlesOnCreated() {
   // counter starts at 0
   this.titles = new ReactiveVar([]);

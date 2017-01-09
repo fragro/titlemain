@@ -1,3 +1,5 @@
+LOC_COORDS = ["sub", "lot", "block", "county", "state"];
+RURAL_COORDS = ["state", "county", "ordinal", "range", "rangeDir", "section", "township", "townshipDir"]
 /*process pdf to PNG on server */
 pdfToPng = function(obj){
   Session.set("processing", "Processing PDF...");
@@ -28,7 +30,7 @@ parseTitle = function(obj){
 saveFile = function(obj){
 	//first we need to store the PDF in IPFS and attach that
 	//hash to the blockchain
-	if(getLegalRating(obj) == 100){
+	if(getRating(obj) == 100){
 		//test to make sure we have complete information
 		//before saving the document in the blockchain
 	    Session.set("processing", "Caching " + obj.name + " to IPFS");
@@ -49,15 +51,28 @@ saveFile = function(obj){
 	  	Session.set("processing", false);
 	}
 }
-//get rating based on legal location information available
-getLegalRating = function(obj){
-	var score = 0;
-	for(var j in LOC_COORDS){
-		if(obj[LOC_COORDS[j]]){
-			score+=1;
+
+getRating = function(obj){
+	for(var i in obj['locations']){
+		if(obj['locations'][i]['ordinal']){
+			return getLegalRating(obj['locations'][i], RURAL_COORDS)
+		}
+		else{
+			return getLegalRating(obj['locations'][i], LOC_COORDS)
 		}
 	}
-	var numObj = (score/LOC_COORDS.length * 100);
+}
+//get rating based on legal location information available
+getLegalRating = function(obj, coords){
+	var totalLength = 0;
+	var score = 0;
+	for(var j in coords){
+		if(obj[coords[j]]){
+			score+=1;
+		}
+		totalLength += 1;
+	}
+	var numObj = (score/totalLength * 100);
 	return numObj.toPrecision(3);
 }
 
