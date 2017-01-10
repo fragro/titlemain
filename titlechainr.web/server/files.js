@@ -14,7 +14,7 @@ getIntr = function(numRange, i){
 	}
 	else if(numRange[i] <= 99){
 		intr = '-0';
-	}
+	} 
 	else{
 		intr = '-';
 	}
@@ -27,8 +27,8 @@ pdfToPng = function(filePath){
 	exec = Npm.require('child_process').exec;
 	cmd = Meteor.wrapAsync(exec);
 	var dir, res;
-	processDir = FILE_DIR + filePath;
-	pngDir = FILE_DIR + filePath;
+	processDir = filePath;
+	pngDir = filePath;
 	console.log(pngDir);
 	cmd("pdfimages -png " + processDir + " " + pngDir);
 	//res = cmd("pdftoppm -rx 300 -ry 300 -png " + processDir + "-no-text " + pngDir);
@@ -79,7 +79,7 @@ parseTitle = function(filePath, numPages){
     // file originally saved as public/data/taxa.csv
 	for(var i in numRange){
 		var intr = getIntr(numRange, i);
-	    var datapath = FILE_DIR + filePath + intr + '.txt';
+	    var datapath = filePath + intr + '.txt';
 	    console.log(datapath)
 	    var dataAppend = fs.readFileSync(datapath, 'utf8');
 	    console.log(dataAppend.length);

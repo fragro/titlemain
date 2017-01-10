@@ -23,7 +23,7 @@ Titles = new FilesCollection({
   collectionName: 'Titles',
   debug: false, // Change to `true` for debugging
   throttle: false,
-  storagePath: '/data',
+  storagePath: process.env.FILE_DIR,
   allowClientCode: false,
   onBeforeUpload: function (file) {
     // Allow upload files under 10MB, and only in png/jpg/jpeg formats
