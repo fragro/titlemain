@@ -24,5 +24,13 @@ def ocr():
 		print(inst) 
 		return "Error", status.HTTP_500_INTERNAL_SERVER_ERROR
 
+@app.route("/test", methods=['GET'])
+def test():
+	"""
+	Test API
+	"""
+	return "A-OK", status.HTTP_200_OK
+
+
 if __name__ == "__main__":
-	app.run(debug=True)
+	app.run(debug=True, host='0.0.0.0')
