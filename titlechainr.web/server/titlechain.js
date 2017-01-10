@@ -1,4 +1,4 @@
-BLOCKCHAIN_API = "http://localhost:8082";
+BLOCKCHAIN_API = process.env.BLOCKCHAIN_API;
 
 
 /*retrieve a single title chain*/

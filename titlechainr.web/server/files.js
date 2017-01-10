@@ -1,7 +1,7 @@
 import { FilesCollection } from 'meteor/ostrio:files';
 var fileExists = require('file-exists');
 
-OCR_API = 'http://127.0.0.1:5000/ocr';
+OCR_API = process.env.OCR_API;
 
 Meteor.publish('files.titles.all', function () {
 	return Titles.find().cursor;
@@ -86,7 +86,7 @@ parseTitle = function(filePath, numPages){
 	    data = data + "\n" + dataAppend;
 	}
 	console.log('calling ocr API')
-    var response = Meteor.http.call("POST", OCR_API, {data:{text:data}});
+    var response = Meteor.http.call("POST", OCR_API + '/ocr', {data:{text:data}});
     console.log(response);
     return response;
 }
