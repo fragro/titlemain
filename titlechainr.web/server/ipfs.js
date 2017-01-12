@@ -5,7 +5,7 @@ putPDF = function(obj){
 	exec = Npm.require('child_process').exec;
 	cmd = Meteor.wrapAsync(exec);
 	var dir, res;
-	var processDir = FILE_DIR + obj.path;
+	var processDir = obj.path;
 	var hashAddress = cmd("eris files put " + processDir);
 	if(hashAddress){
 		return fixPdfHash(hashAddress);

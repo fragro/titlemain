@@ -62,7 +62,8 @@ Titles = new FilesCollection({
               } else {
                 // Unlink original files from FS
                 // after successful upload to AWS:S3
-                self.unlink(self.collection.findOne(fileRef._id), version);
+                //TODO UNLINK
+                //self.unlink(self.collection.findOne(fileRef._id), version);
               }
             });
           }
